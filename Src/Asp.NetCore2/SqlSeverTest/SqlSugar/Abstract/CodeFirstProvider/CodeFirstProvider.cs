@@ -144,10 +144,10 @@ namespace SqlSugar
                 var dbColumns = this.Context.DbMaintenance.GetColumnInfosByTableName(tableName);
                 ConvertColumns(dbColumns);
                 var entityColumns = entityInfo.Columns.Where(it => it.IsIgnore == false).ToList();
-                var dropColumns = dbColumns
-                                          .Where(dc => !entityColumns.Any(ec => dc.DbColumnName.Equals(ec.OldDbColumnName, StringComparison.CurrentCultureIgnoreCase)))
-                                          .Where(dc => !entityColumns.Any(ec => dc.DbColumnName.Equals(ec.DbColumnName, StringComparison.CurrentCultureIgnoreCase)))
-                                          .ToList();
+                //var dropColumns = dbColumns
+                //                          .Where(dc => !entityColumns.Any(ec => dc.DbColumnName.Equals(ec.OldDbColumnName, StringComparison.CurrentCultureIgnoreCase)))
+                //                          .Where(dc => !entityColumns.Any(ec => dc.DbColumnName.Equals(ec.DbColumnName, StringComparison.CurrentCultureIgnoreCase)))
+                //                          .ToList();
                 var addColumns = entityColumns
                                           .Where(ec => ec.OldDbColumnName.IsNullOrEmpty() || !dbColumns.Any(dc => dc.DbColumnName.Equals(ec.OldDbColumnName, StringComparison.CurrentCultureIgnoreCase)))
                                           .Where(ec => !dbColumns.Any(dc => ec.DbColumnName.Equals(dc.DbColumnName, StringComparison.CurrentCultureIgnoreCase))).ToList();
@@ -173,11 +173,11 @@ namespace SqlSugar
                     this.Context.DbMaintenance.AddColumn(tableName, EntityColumnToDbColumn(entityInfo, tableName, item));
                     isChange = true;
                 }
-                foreach (var item in dropColumns)
-                {
-                    this.Context.DbMaintenance.DropColumn(tableName, item.DbColumnName);
-                    isChange = true;
-                }
+                //foreach (var item in dropColumns)
+                //{
+                //    this.Context.DbMaintenance.DropColumn(tableName, item.DbColumnName);
+                //    isChange = true;
+                //}
                 foreach (var item in alterColumns)
                 {
                     this.Context.DbMaintenance.UpdateColumn(tableName, EntityColumnToDbColumn(entityInfo, tableName, item));
